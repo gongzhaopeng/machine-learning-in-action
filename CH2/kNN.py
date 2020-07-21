@@ -19,4 +19,25 @@ def classify0(in_x, dataset, labels, k):
     for i in range(k):
         vote_i_label = labels[sorted_dist_indices[i]]
         class_count[vote_i_label] = class_count.get(vote_i_label, 0) + 1
-    sorted_class_count = sorted()  # TODO
+    sorted_class_count = sorted(
+        class_count.items(),
+        key=operator.itemgetter(1),
+        reverse=True
+    )
+    return sorted_class_count[0][0]
+
+
+def file2matrix(file_name):
+    fr = open(file_name)
+    number_of_lines = len(fr.readlines())
+    return_mat = zeros((number_of_lines, 3))
+    class_label_vector = []
+    fr = open(file_name)
+    index = 0
+    for line in fr.readlines():
+        line = line.strip()
+        list_from_line = line.split('\t')
+        return_mat[index, :] = list_from_line[0:3]
+        class_label_vector.append(int(list_from_line[-1]))
+        index += 1
+    return return_mat, class_label_vector
