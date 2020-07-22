@@ -1,5 +1,4 @@
 from numpy import *
-import operator
 
 
 def create_dataset():
