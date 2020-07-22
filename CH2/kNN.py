@@ -1,4 +1,5 @@
 from numpy import *
+import operator
 
 
 def create_dataset():
@@ -51,3 +52,20 @@ def auto_norm(data_set):
     norm_dataset = data_set - tile(min_vals, (m, 1))
     norm_dataset = norm_dataset / tile(ranges, (m, 1))
     return norm_dataset, ranges, min_vals
+
+
+def dating_class_test():
+    ho_ratio = 0.10
+    dating_data_mat, dating_labels = file2matrix('../source-by-author/Ch02/datingTestSet2.txt')
+    norm_mat, ranges, min_vals = auto_norm(dating_data_mat)
+    m = norm_mat.shape[0]
+    num_test_vecs = int(m * ho_ratio)
+    error_count = 0.0
+    for i in range(num_test_vecs):
+        classifier_result = classify0(norm_mat[i, :], norm_mat[num_test_vecs:m, :],
+                                      dating_labels[num_test_vecs:m], 3)
+        print("the classifier came back with: %d, the real answer is: %d"
+              % (classifier_result, dating_labels[i]))
+        if (classifier_result != dating_labels[i]):
+            error_count += 1.0
+    print("the total error rate is: %f" % (error_count / float(num_test_vecs)))
