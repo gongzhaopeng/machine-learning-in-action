@@ -40,3 +40,14 @@ def file2matrix(file_name):
         class_label_vector.append(int(list_from_line[-1]))
         index += 1
     return return_mat, class_label_vector
+
+
+def auto_norm(data_set):
+    min_vals = data_set.min(0)
+    max_vals = data_set.max(0)
+    ranges = max_vals - min_vals
+    norm_dataset = zeros(shape(data_set))
+    m = data_set.shape[0]
+    norm_dataset = data_set - tile(min_vals, (m, 1))
+    norm_dataset = norm_dataset / tile(ranges, (m, 1))
+    return norm_dataset, ranges, min_vals
