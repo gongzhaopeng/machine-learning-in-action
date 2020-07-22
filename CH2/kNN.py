@@ -69,3 +69,15 @@ def dating_class_test():
         if (classifier_result != dating_labels[i]):
             error_count += 1.0
     print("the total error rate is: %f" % (error_count / float(num_test_vecs)))
+
+
+def classify_person():
+    result_list = ['not at all', 'in small doses', 'in large doses']
+    percent_tats = float(input("percentage of time spent playing video games? "))
+    ff_miles = float(input("frequent flier miles earned per year? "))
+    ice_cream = float(input("liters of ice cream consumed per year? "))
+    dating_data_mat, dating_labels = file2matrix('../source-by-author/Ch02/datingTestSet2.txt')
+    norm_mat, ranges, min_vals = auto_norm(dating_data_mat)
+    in_arr = array([ff_miles, percent_tats, ice_cream])
+    classifier_result = classify0((in_arr - min_vals) / ranges, norm_mat, dating_labels, 3)
+    print("You will probably like this person: ", result_list[classifier_result - 1])

@@ -3,7 +3,7 @@ import numpy
 
 import CH2.kNN as kNN
 
-dating_data_mat, dating_labels = kNN.file2matrix('source-by-author/Ch02/datingTestSet2.txt')
+dating_data_mat, dating_labels = kNN.file2matrix('../source-by-author/Ch02/datingTestSet2.txt')
 norm_mat, ranges, min_vals = kNN.auto_norm(dating_data_mat)
 fig = plt.figure()
 ax = fig.add_subplot(111)
