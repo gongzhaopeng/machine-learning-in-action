@@ -10,3 +10,4 @@ __pycache__
 document/~*
 log
 docs
+temp-resources/*
