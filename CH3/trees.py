@@ -26,3 +26,33 @@ def create_dataset():
     ]
     labels = ['no surfacing', 'flippers']
     return dataset, labels
+
+
+def split_dataset(dataset, axis, value):
+    ret_dataset = []
+    for feat_vec in dataset:
+        if feat_vec[axis] == value:
+            reduced_feat_vec = feat_vec[:axis]
+            reduced_feat_vec.extend(feat_vec[axis + 1:])
+            ret_dataset.append(reduced_feat_vec)
+    return ret_dataset
+
+
+def choose_best_feature_to_split(dataset):
+    num_features = len(dataset[0]) - 1
+    base_entropy = calc_shannon_ent(dataset)
+    best_info_gain = 0.0
+    best_feature = -1
+    for i in range(num_features):
+        feat_list = [example[i] for example in dataset]
+        unique_vals = set(feat_list)
+        new_entropy = 0.0
+        for value in unique_vals:
+            sub_dataset = split_dataset(dataset, i, value)
+            prob = len(sub_dataset) / float(len(dataset))
+            new_entropy += prob * calc_shannon_ent(sub_dataset)
+        info_gain = base_entropy - new_entropy
+        if info_gain > best_info_gain:
+            best_info_gain = info_gain
+            best_feature = i
+    return best_feature
