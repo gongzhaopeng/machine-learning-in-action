@@ -24,3 +24,61 @@ def create_plot():
     plot_node('a decision node', (0.5, 0.1), (0.1, 0.5), decision_node)
     plot_node('a leaf node', (0.8, 0.1), (0.3, 0.8), leaf_node)
     plt.show()
+
+
+def get_num_leafs(my_tree):
+    num_leafs = 0
+    second_dict = next(iter(my_tree.values()))
+    for key in second_dict.keys():
+        if type(second_dict[key]).__name__ == 'dict':
+            num_leafs += get_num_leafs(second_dict[key])
+        else:
+            num_leafs += 1
+    return num_leafs
+
+
+def get_tree_depth(my_tree):
+    max_depth = 0
+    second_dict = next(iter(my_tree.values()))
+    for key in second_dict.keys():
+        if type(second_dict[key]).__name__ == 'dict':
+            this_depth = 1 + get_tree_depth(second_dict[key])
+        else:
+            this_depth = 1
+        if this_depth > max_depth:
+            max_depth = this_depth
+    return max_depth
+
+
+def retrieve_tree(i):
+    list_of_trees = [
+        {
+            'no surfacing': {
+                0: 'no',
+                1: {
+                    'flippers':
+                        {
+                            0: 'no',
+                            1: 'yes'
+                        }
+                }
+            }
+        },
+        {
+            'no surfacing':
+                {
+                    0: 'no',
+                    1: {
+                        'flippers': {
+                            0: {
+                                'head': {
+                                    0: 'no',
+                                    1: 'yes'}
+                            },
+                            1: 'no'
+                        }
+                    }
+                }
+        }
+    ]
+    return list_of_trees[i]
