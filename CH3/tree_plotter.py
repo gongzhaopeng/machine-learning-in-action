@@ -82,3 +82,28 @@ def retrieve_tree(i):
         }
     ]
     return list_of_trees[i]
+
+
+def plot_mid_text(cntr_pt, parent_pt, txt_string):
+    x_mid = (parent_pt[0] - cntr_pt[0]) / 2.0 + cntr_pt[0]
+    y_mid = (parent_pt[1] - cntr_pt[1]) / 2.0 + cntr_pt[1]
+    create_plot.ax1.text(x_mid, y_mid, txt_string)
+
+
+def plot_tree(my_tree, parent_pt, node_txt):
+    num_leafs = get_num_leafs(my_tree)
+    first_str = next(iter(my_tree.keys()))
+    cntr_pt = (plot_tree.x_off + (1.0 + float(num_leafs)) / 2.0 / plot_tree.total_w,
+               plot_tree.y_off)
+    plot_mid_text(cntr_pt, parent_pt, node_txt)
+    plot_node(first_str, cntr_pt, parent_pt, decision_node)
+    second_dict = my_tree[first_str]
+    plot_tree.y_off = plot_tree.y_off - 1.0 / plot_tree.total_d
+    for key in second_dict.keys():
+        if type(second_dict[key]).__name__ == 'dict':
+            plot_tree(second_dict[key], cntr_pt, str(key))
+        else:
+            plot_tree.x_off = plot_tree.x_off + 1.0 / plot_tree.total_w
+            plot_node(second_dict[key], (plotTree.xOff, plotTree.yOff), cntrPt, leafNode)
+            plotMidText((plotTree.xOff, plotTree.yOff), cntrPt, str(key))
+    plotTree.yOff = plotTree.yOff + 1.0 / plotTree.totalD
