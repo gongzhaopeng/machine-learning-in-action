@@ -17,12 +17,25 @@ def plot_node(node_txt, center_pt, parent_pt, node_type):
                              arrowprops=arrow_args)
 
 
-def create_plot():
+# def create_plot():
+#     fig = plt.figure(1, facecolor='white')
+#     fig.clf()
+#     create_plot.ax1 = plt.subplot(111, frameon=False)
+#     plot_node('a decision node', (0.5, 0.1), (0.1, 0.5), decision_node)
+#     plot_node('a leaf node', (0.8, 0.1), (0.3, 0.8), leaf_node)
+#     plt.show()
+
+
+def create_plot(in_tree):
     fig = plt.figure(1, facecolor='white')
     fig.clf()
-    create_plot.ax1 = plt.subplot(111, frameon=False)
-    plot_node('a decision node', (0.5, 0.1), (0.1, 0.5), decision_node)
-    plot_node('a leaf node', (0.8, 0.1), (0.3, 0.8), leaf_node)
+    axprops = dict(xticks=[], yticks=[])
+    create_plot.ax1 = plt.subplot(111, frameon=False, **axprops)
+    plot_tree.total_w = float(get_num_leafs(in_tree))
+    plot_tree.total_d = float(get_tree_depth(in_tree))
+    plot_tree.x_off = -0.5 / plot_tree.total_w
+    plot_tree.y_off = 1.0
+    plot_tree(in_tree, (0.5, 1.0), '')
     plt.show()
 
 
@@ -87,7 +100,7 @@ def retrieve_tree(i):
 def plot_mid_text(cntr_pt, parent_pt, txt_string):
     x_mid = (parent_pt[0] - cntr_pt[0]) / 2.0 + cntr_pt[0]
     y_mid = (parent_pt[1] - cntr_pt[1]) / 2.0 + cntr_pt[1]
-    create_plot.ax1.text(x_mid, y_mid, txt_string)
+    create_plot.ax1.text(x_mid, y_mid, txt_string, va="center", ha="center", rotation=30)
 
 
 def plot_tree(my_tree, parent_pt, node_txt):
@@ -104,6 +117,6 @@ def plot_tree(my_tree, parent_pt, node_txt):
             plot_tree(second_dict[key], cntr_pt, str(key))
         else:
             plot_tree.x_off = plot_tree.x_off + 1.0 / plot_tree.total_w
-            plot_node(second_dict[key], (plotTree.xOff, plotTree.yOff), cntrPt, leafNode)
-            plotMidText((plotTree.xOff, plotTree.yOff), cntrPt, str(key))
-    plotTree.yOff = plotTree.yOff + 1.0 / plotTree.totalD
+            plot_node(second_dict[key], (plot_tree.x_off, plot_tree.y_off), cntr_pt, leaf_node)
+            plot_mid_text((plot_tree.x_off, plot_tree.y_off), cntr_pt, str(key))
+    plot_tree.y_off = plot_tree.y_off + 1.0 / plot_tree.total_d
