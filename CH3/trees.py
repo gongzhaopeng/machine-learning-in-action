@@ -88,3 +88,16 @@ def create_tree(dataset, labels):
         my_tree[best_feat_label][value] = create_tree(
             split_dataset(dataset, best_feat, value), sub_labels)
     return my_tree
+
+
+def classify(input_tree, feat_labels, test_vec):
+    first_str = next(iter(input_tree.keys()))
+    second_dict = input_tree[first_str]
+    feat_index = feat_labels.index(first_str)
+    for key in second_dict.keys():
+        if test_vec[feat_index] == key:
+            if type(second_dict[key]).__name__ == 'dict':
+                class_label = classify(second_dict[key], feat_labels, test_vec)
+            else:
+                class_label = second_dict[key]
+    return class_label
