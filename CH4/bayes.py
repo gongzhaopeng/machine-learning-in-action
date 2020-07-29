@@ -1,3 +1,6 @@
+from numpy import *
+
+
 def load_dataset():
     posting_list = [
         ['my', 'dog', 'has', 'flea', 'problems', 'help', 'please'],
@@ -26,3 +29,23 @@ def set_of_words_2_vec(vocab_list, input_set):
         else:
             print(f"the word: {word} is not in my Vocabulary!")
     return return_vec
+
+
+def train_nb_0(train_matrix, train_category):
+    num_train_docs = len(train_matrix)
+    num_words = len(train_matrix[0])
+    p_abusive = sum(train_category) / float(num_train_docs)
+    p0_num = zeros(num_words)
+    p1_num = zeros(num_words)
+    p0_denominator = 0.0
+    p1_denominator = 0.0
+    for i in range(num_train_docs):
+        if train_category[i] == 1:
+            p1_num += train_matrix[i]
+            p1_denominator += sum(train_matrix[i])
+        else:
+            p0_num += train_matrix[i]
+            p0_denominator += sum(train_matrix[i])
+    p1_vec = p1_num / p1_denominator
+    p0_vec = p0_num / p0_denominator
+    return p0_vec, p1_vec, p_abusive
