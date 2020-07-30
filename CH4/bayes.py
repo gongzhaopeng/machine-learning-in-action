@@ -85,7 +85,7 @@ def bag_of_words_2_vec_mn(vocab_list, input_set):
 
 def text_parse(big_string):
     import re
-    list_of_tokens = re.split(r'\W*', big_string)
+    list_of_tokens = re.split(r'\W+', big_string)
     return [tok.lower() for tok in list_of_tokens if len(tok) > 2]
 
 
