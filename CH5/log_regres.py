@@ -105,7 +105,7 @@ def colic_test():
             line_arr.append(float(curr_line[i]))
         training_set.append(line_arr)
         training_labels.append(float(curr_line[21]))
-    train_weights = stoc_grad_ascent1(array(training_set), training_labels, 1000)
+    train_weights = stoc_grad_ascent1(array(training_set), training_labels, 500)
     error_count = 0
     num_test_vec = 0.0
     for line in fr_test.readlines():
